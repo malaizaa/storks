@@ -5,6 +5,7 @@ namespace AppBundle\Command;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * Coding standards demonstration.
@@ -15,6 +16,7 @@ class CommisionRateCalculateCommand extends Command
     {
         $this
            ->setName('storks:calculate-commisions')
+           ->addArgument('path', InputArgument::REQUIRED, 'path to csv file')
            ->setDescription('Calculates user operations commisions from given csv file.')
         ;
     }
@@ -28,5 +30,13 @@ class CommisionRateCalculateCommand extends Command
         $output->writeln([
             'Commision rate calculator'
         ]);
+
+        $row = 1;
+        if (false !== ($handle = fopen($input->getArgument('path'), 'r')) ) {
+            while (false !== ($data = fgetcsv($handle, 1000, ','))) {
+                $output->writeln($data['4'] * 0.003);
+            }
+            fclose($handle);
+        }
     }
 }
