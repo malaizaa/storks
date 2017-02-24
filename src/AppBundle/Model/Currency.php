@@ -7,13 +7,18 @@ class Currency implements CurrencyInterface
     CONST CODE_EUR = 'EUR';
     CONST CODE_USD = 'USD';
     CONST CODE_JPN = 'JPN';
-    
+
     /**
      * @var string
      */
     protected $code;
 
-    public function setCode(string $code) : CurrencyInterface
+    /**
+     * @param string $code
+     *
+     * @return $this
+     */
+    public function setCode(string $code) : self
     {
         $this->code = $code;
 

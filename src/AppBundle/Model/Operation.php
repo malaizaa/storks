@@ -30,7 +30,7 @@ class Operation implements OperationInterface
     }
 
     /**
-     * @return $amount
+     * @return float
      */
     public function getAmount() : float
     {
