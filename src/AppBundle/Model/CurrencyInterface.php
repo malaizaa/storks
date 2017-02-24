@@ -12,7 +12,7 @@ interface CurrencyInterface {
     /**
      * @param string $code
      *
-     * @return string
+     * @return self
      */
     public function setCode(string $code) : self;
 }
