@@ -6,6 +6,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
+use AppBundle\Processor\CsvProcessor;
 
 /**
  * Coding standards demonstration.
@@ -31,11 +32,13 @@ class CommisionRateCalculateCommand extends Command
             'Commision rate calculator'
         ]);
 
-        $row = 1;
+        $csvProcessor = new CsvProcessor();
+
         if (false !== ($handle = fopen($input->getArgument('path'), 'r')) ) {
             while (false !== ($data = fgetcsv($handle, 1000, ','))) {
-                $output->writeln($data['4'] * 0.003);
+                $output->writeln($csvProcessor->process($data));
             }
+
             fclose($handle);
         }
     }

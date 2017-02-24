@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests\AppBundle\Command;
+
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -27,11 +29,11 @@ class CommisionRateCalculateCommandTest extends KernelTestCase
     }
 
     /**
-     * @param AppKernel $kernel
+     * @param Symfony\Component\HttpKernel\KernelInterface $kernel
      *
      * @return string
      */
-    protected function getExpectedOutput(AppKernel $kernel) : string
+    protected function getExpectedOutput(\Symfony\Component\HttpKernel\KernelInterface $kernel) : string
     {
         return file_get_contents($kernel->getRootDir().'/../tests/output.csv');
     }
