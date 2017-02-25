@@ -31,7 +31,7 @@ class CashInRateCalculatorTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'default rate'  => [
-                0.03, new Operation(Operation::OPERATION_TYPE_CASH_IN, 100, Currency::CODE_JPN, Operation::CLIENT_TYPE_LEGAL)
+                0.03, new Operation(Operation::OPERATION_TYPE_CASH_IN, 100, Currency::CODE_JPY, Operation::CLIENT_TYPE_LEGAL)
             ],
             'max amount reached'  => [
                 5.00, new Operation(Operation::OPERATION_TYPE_CASH_IN, 30000, Currency::CODE_EUR, Operation::CLIENT_TYPE_LEGAL)

@@ -5,6 +5,7 @@ namespace Tests\AppBundle\Service;
 use AppBundle\Service\CashOutNaturalRateCalculator;
 use AppBundle\Model\OperationInterface;
 use AppBundle\Model\Currency;
+use AppBundle\Model\NaturalCashOutOperation;
 use AppBundle\Model\Operation;
 
 class CashOutNaturalRateCalculatorTest extends \PHPUnit_Framework_TestCase
@@ -32,11 +33,11 @@ class CashOutNaturalRateCalculatorTest extends \PHPUnit_Framework_TestCase
         return [
             'default rate'  => [
                 0.3,
-                new Operation(Operation::OPERATION_TYPE_CASH_IN, 100, Currency::CODE_JPN, Operation::CLIENT_TYPE_NATURAL)
+                new NaturalCashOutOperation(Operation::OPERATION_TYPE_CASH_IN, 100, Currency::CODE_JPY, Operation::CLIENT_TYPE_NATURAL)
             ],
             'min amount reached'  => [
                 90.0,
-                new Operation(Operation::OPERATION_TYPE_CASH_IN, 30000, Currency::CODE_EUR, Operation::CLIENT_TYPE_NATURAL)
+                new NaturalCashOutOperation(Operation::OPERATION_TYPE_CASH_IN, 30000, Currency::CODE_EUR, Operation::CLIENT_TYPE_NATURAL)
             ],
         ];
     }
