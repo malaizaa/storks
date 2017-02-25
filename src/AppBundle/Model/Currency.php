@@ -18,7 +18,7 @@ class Currency implements CurrencyInterface
      *
      * @return $this
      */
-    public function setCode(string $code) : self
+    public function setCode(string $code)
     {
         $this->code = $code;
 

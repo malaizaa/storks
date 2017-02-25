@@ -14,5 +14,5 @@ interface CurrencyInterface {
      *
      * @return self
      */
-    public function setCode(string $code) : self;
+    public function setCode(string $code);
 }

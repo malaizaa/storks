@@ -43,4 +43,20 @@ interface OperationInterface
      * @return string
      */
     public function getType() : string;
+
+    /**
+     * @return string
+     *
+     * @return self
+     */
+    public function getClientType() : string;
+
+    /**
+     * @param string $clientType
+     *
+     * @return self
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function setClientType(string $clientType);
 }

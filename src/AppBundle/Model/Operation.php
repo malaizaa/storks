@@ -7,6 +7,9 @@ class Operation implements OperationInterface
     CONST OPERATION_TYPE_CASH_IN = 'cash_in';
     CONST OPERATION_TYPE_CASH_OUT = 'cash_out';
 
+    CONST CLIENT_TYPE_LEGAL = 'legal';
+    CONST CLIENT_TYPE_NATURAL = 'natural';
+
     /**
      * @var float
      */
@@ -22,11 +25,17 @@ class Operation implements OperationInterface
      */
     protected $type;
 
-    public function __construct(string $type, float $amount, string $currency)
+    /**
+     * @var string
+     */
+    protected $clientType;
+
+    public function __construct(string $type, float $amount, string $currency, string $clientType)
     {
         $this->setType($type);
         $this->setCurrency($currency);
         $this->setAmount($amount);
+        $this->setClientType($clientType);
     }
 
     /**
@@ -78,6 +87,14 @@ class Operation implements OperationInterface
     }
 
     /**
+     * @return string
+     */
+    public function getClientType() : string
+    {
+        return $this->clientType;
+    }
+
+    /**
      * @param string $type
      *
      * @return self
@@ -96,14 +113,59 @@ class Operation implements OperationInterface
     }
 
     /**
+     * @param string $clientType
+     *
+     * @return self
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function setClientType(string $clientType)
+    {
+        if (! in_array($clientType, $this->getSupportedClientTypes())) {
+            throw new \InvalidArgumentException(sprintf('Unsuported client type: %s', $clientType));
+        }
+
+        $this->clientType = $clientType;
+
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function getSupportedOperations() : array
     {
         return [
             self::OPERATION_TYPE_CASH_IN,
-            self::OPERATION_TYPE_CASH_OUT
+            self::OPERATION_TYPE_CASH_OUT,
         ];
+    }
+
+    /**
+     * @return array
+     */
+    public function getSupportedClientTypes() : array
+    {
+        return [
+            self::CLIENT_TYPE_NATURAL,
+            self::CLIENT_TYPE_LEGAL,
+        ];
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLegalClient() : bool
+    {
+        return ($this->getClientType() === self::CLIENT_TYPE_LEGAL);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLegalCashOutOperation() : bool
+    {
+        return ($this->isLegalClient() && $this->isCashOutOperation());
     }
 
     /**
@@ -112,5 +174,13 @@ class Operation implements OperationInterface
     public function isCashInOperation() : bool
     {
         return ($this->getType() === self::OPERATION_TYPE_CASH_IN);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCashOutOperation() : bool
+    {
+        return ($this->getType() === self::OPERATION_TYPE_CASH_OUT);
     }
 }
