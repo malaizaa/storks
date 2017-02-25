@@ -4,6 +4,7 @@ namespace AppBundle\Processor;
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Service\CashInRateCalculator;
 use AppBundle\Service\CashOutLegalRateCalculator;
+use AppBundle\Service\CashOutNaturalRateCalculator;
 use AppBundle\Model\Operation;
 
 class CsvProcessor
@@ -36,6 +37,10 @@ class CsvProcessor
             return $calculator->calculate($operation);
         } else if ($operation->isLegalCashOutOperation()) {
             $calculator = new CashOutLegalRateCalculator();
+
+            return $calculator->calculate($operation);
+        } else if ($operation->isNaturalCashOutOperation()) {
+            $calculator = new CashOutNaturalRateCalculator();
 
             return $calculator->calculate($operation);
         }

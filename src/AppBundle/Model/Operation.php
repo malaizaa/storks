@@ -103,7 +103,7 @@ class Operation implements OperationInterface
      */
     public function setType(string $type)
     {
-        if (! in_array($type, $this->getSupportedOperations())) {
+        if (!in_array($type, $this->getSupportedOperations())) {
             throw new \InvalidArgumentException(sprintf('Unsuported operation type: %s', $type));
         }
 
@@ -121,7 +121,7 @@ class Operation implements OperationInterface
      */
     public function setClientType(string $clientType)
     {
-        if (! in_array($clientType, $this->getSupportedClientTypes())) {
+        if (!in_array($clientType, $this->getSupportedClientTypes())) {
             throw new \InvalidArgumentException(sprintf('Unsuported client type: %s', $clientType));
         }
 
@@ -163,9 +163,25 @@ class Operation implements OperationInterface
     /**
      * @return bool
      */
+    public function isNaturalClient() : bool
+    {
+        return ($this->getClientType() === self::CLIENT_TYPE_NATURAL);
+    }
+
+    /**
+     * @return bool
+     */
     public function isLegalCashOutOperation() : bool
     {
         return ($this->isLegalClient() && $this->isCashOutOperation());
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNaturalCashOutOperation() : bool
+    {
+        return ($this->isNaturalClient() && $this->isCashOutOperation());
     }
 
     /**

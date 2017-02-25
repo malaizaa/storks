@@ -1,7 +1,6 @@
 <?php
 namespace AppBundle\Service;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Model\OperationInterface;
 
 class CashOutLegalRateCalculator implements RateCalculatorInterface

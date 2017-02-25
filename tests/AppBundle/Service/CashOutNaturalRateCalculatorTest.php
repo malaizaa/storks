@@ -2,16 +2,16 @@
 
 namespace Tests\AppBundle\Service;
 
-use AppBundle\Service\CashInRateCalculator;
+use AppBundle\Service\CashOutNaturalRateCalculator;
 use AppBundle\Model\OperationInterface;
 use AppBundle\Model\Currency;
 use AppBundle\Model\Operation;
 
-class CashInRateCalculatorTest extends \PHPUnit_Framework_TestCase
+class CashOutNaturalRateCalculatorTest extends \PHPUnit_Framework_TestCase
 {
     public function testImplementsRateCalculatorInterface()
     {
-        $this->assertInstanceOf('\AppBundle\Service\RateCalculatorInterface', new CashInRateCalculator());
+        $this->assertInstanceOf('\AppBundle\Service\RateCalculatorInterface', new CashOutNaturalRateCalculator());
     }
 
     /**
@@ -19,7 +19,7 @@ class CashInRateCalculatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testCalculateRate($expectedResult, OperationInterface $operation)
     {
-        $calculator = new CashInRateCalculator();
+        $calculator = new CashOutNaturalRateCalculator();
 
         $this->assertEquals($expectedResult, $calculator->calculate($operation));
     }
@@ -31,10 +31,12 @@ class CashInRateCalculatorTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'default rate'  => [
-                0.03, new Operation(Operation::OPERATION_TYPE_CASH_IN, 100, Currency::CODE_JPN, Operation::CLIENT_TYPE_LEGAL)
+                0.3,
+                new Operation(Operation::OPERATION_TYPE_CASH_IN, 100, Currency::CODE_JPN, Operation::CLIENT_TYPE_NATURAL)
             ],
-            'max amount reached'  => [
-                5.00, new Operation(Operation::OPERATION_TYPE_CASH_IN, 30000, Currency::CODE_EUR, Operation::CLIENT_TYPE_LEGAL)
+            'min amount reached'  => [
+                90.0,
+                new Operation(Operation::OPERATION_TYPE_CASH_IN, 30000, Currency::CODE_EUR, Operation::CLIENT_TYPE_NATURAL)
             ],
         ];
     }

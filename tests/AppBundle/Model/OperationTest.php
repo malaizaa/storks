@@ -65,12 +65,22 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($operation->isLegalClient());
     }
 
+    public function testItKnowsThenNaturalClient()
+    {
+        $operation = $this->mockOperation(Operation::OPERATION_TYPE_CASH_OUT, 100, Currency::CODE_EUR, Operation::CLIENT_TYPE_NATURAL);
+        $this->assertTrue($operation->isNaturalClient());
+    }
+
     /**
      * @dataProvider operationProvider
      */
-    public function testItKnowsWhenLegalCashOutOperation($expecetedResult, Operation $operation)
-    {
-        $this->assertEquals($expecetedResult, $operation->isLegalCashOutOperation());
+    public function testItKnowsWhenCashOutOperationByClientType(
+        $expecetedLegalResult,
+        $expecetedNaturalResult,
+        Operation $operation
+    ) {
+        $this->assertEquals($expecetedLegalResult, $operation->isLegalCashOutOperation());
+        $this->assertEquals($expecetedNaturalResult, $operation->isNaturalCashOutOperation());
     }
 
     /**
@@ -97,10 +107,10 @@ class OperationTest extends \PHPUnit_Framework_TestCase
     public function operationProvider()
     {
         return [
-            'cash_in_legal' => [false, $this->mockOperation(Operation::OPERATION_TYPE_CASH_IN, 100, Currency::CODE_EUR, Operation::CLIENT_TYPE_LEGAL)],
-            'cash_in_natural' => [false, $this->mockOperation(Operation::OPERATION_TYPE_CASH_IN, 100, Currency::CODE_EUR, Operation::CLIENT_TYPE_NATURAL)],
-            'cash_out_natural' => [false, $this->mockOperation(Operation::OPERATION_TYPE_CASH_OUT, 100, Currency::CODE_EUR, Operation::CLIENT_TYPE_NATURAL)],
-            'cash_out_legal' => [true, $this->mockOperation(Operation::OPERATION_TYPE_CASH_OUT, 100, Currency::CODE_EUR, Operation::CLIENT_TYPE_LEGAL)],
+            'cash_in_legal' => [false, false, $this->mockOperation(Operation::OPERATION_TYPE_CASH_IN, 100, Currency::CODE_EUR, Operation::CLIENT_TYPE_LEGAL)],
+            'cash_in_natural' => [false, false, $this->mockOperation(Operation::OPERATION_TYPE_CASH_IN, 100, Currency::CODE_EUR, Operation::CLIENT_TYPE_NATURAL)],
+            'cash_out_natural' => [false, true, $this->mockOperation(Operation::OPERATION_TYPE_CASH_OUT, 100, Currency::CODE_EUR, Operation::CLIENT_TYPE_NATURAL)],
+            'cash_out_legal' => [true, false, $this->mockOperation(Operation::OPERATION_TYPE_CASH_OUT, 100, Currency::CODE_EUR, Operation::CLIENT_TYPE_LEGAL)],
         ];
     }
 

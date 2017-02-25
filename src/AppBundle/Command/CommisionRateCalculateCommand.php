@@ -16,9 +16,9 @@ class CommisionRateCalculateCommand extends Command
     protected function configure()
     {
         $this
-           ->setName('storks:calculate-commisions')
-           ->addArgument('path', InputArgument::REQUIRED, 'path to csv file')
-           ->setDescription('Calculates user operations commisions from given csv file.')
+            ->setName('storks:calculate-commisions')
+            ->addArgument('path', InputArgument::REQUIRED, 'path to csv file')
+            ->setDescription('Calculates user operations commisions from given csv file.')
         ;
     }
 
@@ -34,7 +34,7 @@ class CommisionRateCalculateCommand extends Command
 
         $csvProcessor = new CsvProcessor();
 
-        if (false !== ($handle = fopen($input->getArgument('path'), 'r')) ) {
+        if (false !== ($handle = fopen($input->getArgument('path'), 'r'))) {
             while (false !== ($data = fgetcsv($handle, 1000, ','))) {
                 $output->writeln($csvProcessor->process($data));
             }
