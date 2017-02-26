@@ -8,10 +8,7 @@ https://gist.github.com/mariusbalcytis/128d6a38b0d2a698cdf725894f2924ea
 * PHPUnit 6.0.7
 
 ## Programos paleidimas: ##
-> composer install
-> php bin/console storks:calculate-fees kelias iki failo
-
-Pvz:
+```composer install```
 ```php bin/console storks:calculate-fees tests/input.csv```
 
 ##Testu paleidimas:##
