@@ -2,24 +2,24 @@
 
 namespace Tests\AppBundle\Service;
 
-use AppBundle\Service\CashInRateCalculator;
+use AppBundle\Service\CashInFeeCalculator;
 use AppBundle\Model\OperationInterface;
 use AppBundle\Model\Currency;
 use AppBundle\Model\Operation;
 
-class CashInRateCalculatorTest extends \PHPUnit_Framework_TestCase
+class CashInFeeCalculatorTest extends \PHPUnit_Framework_TestCase
 {
-    public function testImplementsRateCalculatorInterface()
+    public function testImplementsFeeCalculatorInterface()
     {
-        $this->assertInstanceOf('\AppBundle\Service\RateCalculatorInterface', new CashInRateCalculator());
+        $this->assertInstanceOf('\AppBundle\Service\FeeCalculatorInterface', new CashInFeeCalculator());
     }
 
     /**
      * @dataProvider operationsProvider
      */
-    public function testCalculateRate($expectedResult, OperationInterface $operation)
+    public function testCalculateFee($expectedResult, OperationInterface $operation)
     {
-        $calculator = new CashInRateCalculator();
+        $calculator = new CashInFeeCalculator();
 
         $this->assertEquals($expectedResult, $calculator->calculate($operation));
     }
@@ -30,7 +30,7 @@ class CashInRateCalculatorTest extends \PHPUnit_Framework_TestCase
     public function operationsProvider() : array
     {
         return [
-            'default rate'  => [
+            'default Fee'  => [
                 0.03, new Operation(Operation::OPERATION_TYPE_CASH_IN, 100, Currency::CODE_JPY, Operation::CLIENT_TYPE_LEGAL)
             ],
             'max amount reached'  => [

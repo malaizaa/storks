@@ -15,10 +15,10 @@ class CurrencyConverter implements ConverterInterface
      */
     public function convert(CurrencyInterface $currencyFrom, CurrencyInterface $currencyTo, float $amount) : float
     {
-        return $amount * (self::rates()[$currencyTo->getCode()] / self::rates()[$currencyFrom->getCode()]);
+        return $amount * (self::Fees()[$currencyTo->getCode()] / self::Fees()[$currencyFrom->getCode()]);
     }
 
-    public static function rates() : array
+    public static function Fees() : array
     {
         return [
             'EUR' => 1, // default currency

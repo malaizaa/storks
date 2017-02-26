@@ -4,7 +4,7 @@ namespace AppBundle\Service;
 
 use AppBundle\Model\OperationInterface;
 
-interface RateCalculatorInterface
+interface FeeCalculatorInterface
 {
     /**
      * @param OperationInterface $amount

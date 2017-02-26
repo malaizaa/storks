@@ -3,9 +3,9 @@ namespace AppBundle\Service;
 
 use AppBundle\Model\OperationInterface;
 
-class CashInRateCalculator implements RateCalculatorInterface
+class CashInFeeCalculator implements FeeCalculatorInterface
 {
-    const RATE = 0.0003;
+    const Fee = 0.0003;
     const MAX_AMOUNT = 5.00;
 
     /**
@@ -15,6 +15,6 @@ class CashInRateCalculator implements RateCalculatorInterface
      */
     public function calculate(OperationInterface $operation) : float
     {
-        return ($operation->getAmount() * self::RATE < self::MAX_AMOUNT) ? $operation->getAmount() * self::RATE : self::MAX_AMOUNT;
+        return ($operation->getAmount() * self::Fee < self::MAX_AMOUNT) ? $operation->getAmount() * self::Fee : self::MAX_AMOUNT;
     }
 }

@@ -3,23 +3,37 @@ namespace AppBundle\Processor;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Service\CurrencyConverter;
-use AppBundle\Service\CashInRateCalculator;
-use AppBundle\Service\CashOutLegalRateCalculator;
-use AppBundle\Service\CashOutNaturalRateCalculator;
+use AppBundle\Service\CashInFeeCalculator;
+use AppBundle\Service\CashOutLegalFeeCalculator;
+use AppBundle\Service\CashOutNaturalFeeCalculator;
 use AppBundle\Model\Operation;
 use AppBundle\Model\Currency;
 use AppBundle\Model\NaturalCashOutOperation;
 
-class CsvProcessor
+class CsvOperationProcessor
 {
+    /**
+     * @var array
+     */
     protected $userOperations;
+
+    /**
+     * @var CurrencyConverterInterface
+     */
+    protected $converter;
 
     public function __construct()
     {
         $this->userOperations = [];
+        $this->converter = new CurrencyConverter();
     }
 
-    public function process($row)
+    /**
+     * @param array $row
+     *
+     * @return float
+     */
+    public function getOperationFee(array $row) : float
     {
         $date = new \DateTime($row[0]);
         $userId = $row[1];
@@ -30,7 +44,6 @@ class CsvProcessor
         $currencyIn = new Currency($currency);
         $currencyOut = new Currency(Currency::CODE_EUR);
         $weekNumber = $date->format('W');
-        $converter = new CurrencyConverter();
 
         $operation = new Operation($operationType, $amount, $currency, $clientType);
 
@@ -38,25 +51,26 @@ class CsvProcessor
         $this->userOperations[$userId][$weekNumber][$operationType]['operations'][] = $row;
 
         // keeps each user cash out operations sum converted to default currency EUR
-        $this->userOperations[$userId][$weekNumber][$operationType]['sum'][] = $converter->convert($currencyIn, $currencyOut, $amount);
+        $this->userOperations[$userId][$weekNumber][$operationType]['sum'][] = $this->converter->convert($currencyIn, $currencyOut, $amount);
 
         if ($operation->isCashInOperation()) {
-            $calculator = new CashInRateCalculator();
+            $calculator = new CashInFeeCalculator();
 
             return $calculator->calculate($operation);
         } else if ($operation->isLegalCashOutOperation()) {
-            $calculator = new CashOutLegalRateCalculator();
+            $calculator = new CashOutLegalFeeCalculator();
 
             return $calculator->calculate($operation);
         } else if ($operation->isNaturalCashOutOperation()) {
             $weeklyCashOutOperationsCount = count($this->userOperations[$userId][$weekNumber][$operationType]['operations']);
             $weeklyCashOutOperationsSum = array_sum($this->userOperations[$userId][$weekNumber][$operationType]['sum']);
 
+            // construct new special NaturalCashOutOperation object
             $operation = new NaturalCashOutOperation($operationType, $amount, $currency, $clientType);
             $operation->setWeeklyOperationsCount($weeklyCashOutOperationsCount);
             $operation->setWeeklyOperationsSum($weeklyCashOutOperationsSum);
 
-            $calculator = new CashOutNaturalRateCalculator();
+            $calculator = new CashOutNaturalFeeCalculator();
 
             return $calculator->calculate($operation);
         }

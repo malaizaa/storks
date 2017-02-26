@@ -1,24 +1,21 @@
 <?php
-// src/AppBundle/Command/CommisionRateCalculateCommand.php
 namespace AppBundle\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
-use AppBundle\Processor\CsvProcessor;
+use AppBundle\Processor\CsvOperationProcessor;
+use AppBundle\Util\Formatter;
 
-/**
- * Coding standards demonstration.
- */
-class CommisionRateCalculateCommand extends Command
+class FeeCalculateCommand extends Command
 {
     protected function configure()
     {
         $this
-            ->setName('storks:calculate-commisions')
+            ->setName('storks:calculate-fees')
             ->addArgument('path', InputArgument::REQUIRED, 'path to csv file')
-            ->setDescription('Calculates user operations commisions from given csv file.')
+            ->setDescription('Calculates user operations fees from given csv file.')
         ;
     }
 
@@ -28,15 +25,13 @@ class CommisionRateCalculateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln([
-            'Commision rate calculator'
-        ]);
-
-        $csvProcessor = new CsvProcessor();
-
+        $csvProcessor = new CsvOperationProcessor();
+        $formatter = new Formatter();
         if (false !== ($handle = fopen($input->getArgument('path'), 'r'))) {
             while (false !== ($data = fgetcsv($handle, 1000, ','))) {
-                $output->writeln($csvProcessor->process($data));
+                $commisionFee = $csvProcessor->getOperationFee($data);
+
+                $output->writeln($formatter->format($commisionFee));
             }
 
             fclose($handle);

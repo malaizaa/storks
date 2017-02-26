@@ -5,9 +5,9 @@ namespace Tests\AppBundle\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use AppBundle\Command\CommisionRateCalculateCommand;
+use AppBundle\Command\FeeCalculateCommand;
 
-class CommisionRateCalculateCommandTest extends KernelTestCase
+class FeeCalculateCommandTest extends KernelTestCase
 {
     public function testExecute()
     {
@@ -15,9 +15,9 @@ class CommisionRateCalculateCommandTest extends KernelTestCase
         $kernel->boot();
 
         $application = new Application($kernel);
-        $application->add(new CommisionRateCalculateCommand());
+        $application->add(new FeeCalculateCommand());
 
-        $command = $application->find('storks:calculate-commisions');
+        $command = $application->find('storks:calculate-fees');
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command'  => $command->getName(),
