@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Procesor;
+namespace AppBundle\Processor;
 
 interface OperationProcessorInterface
 {

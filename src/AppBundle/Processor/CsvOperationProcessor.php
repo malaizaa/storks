@@ -10,7 +10,7 @@ use AppBundle\Model\Operation;
 use AppBundle\Model\Currency;
 use AppBundle\Model\NaturalCashOutOperation;
 
-class CsvOperationProcessor
+class CsvOperationProcessor implements OperationProcessorInterface
 {
     /**
      * @var array
