@@ -2,16 +2,16 @@
 
 namespace Tests\AppBundle\Service;
 
-use AppBundle\Service\CashOutLegalRateCalculator;
 use AppBundle\Model\OperationInterface;
 use AppBundle\Model\Currency;
 use AppBundle\Model\Operation;
+use AppBundle\Service\CashOutLegalFeeCalculator;
 
-class CashOutLegalRateCalculatorTest extends \PHPUnit_Framework_TestCase
+class CashOutLegalFeeCalculatorTest extends \PHPUnit_Framework_TestCase
 {
     public function testImplementsRateCalculatorInterface()
     {
-        $this->assertInstanceOf('\AppBundle\Service\RateCalculatorInterface', new CashOutLegalRateCalculator());
+        $this->assertInstanceOf('\AppBundle\Service\RateCalculatorInterface', new CashOutLegalFeeCalculator());
     }
 
     /**
@@ -19,7 +19,7 @@ class CashOutLegalRateCalculatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testCalculateRate($expectedResult, OperationInterface $operation)
     {
-        $calculator = new CashOutLegalRateCalculator();
+        $calculator = new CashOutLegalFeeCalculator();
 
         $this->assertEquals($expectedResult, $calculator->calculate($operation));
     }

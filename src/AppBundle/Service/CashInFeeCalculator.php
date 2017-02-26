@@ -5,7 +5,7 @@ use AppBundle\Model\OperationInterface;
 
 class CashInFeeCalculator implements FeeCalculatorInterface
 {
-    const Fee = 0.0003;
+    const FEE = 0.0003;
     const MAX_AMOUNT = 5.00;
 
     /**
@@ -15,6 +15,6 @@ class CashInFeeCalculator implements FeeCalculatorInterface
      */
     public function calculate(OperationInterface $operation) : float
     {
-        return ($operation->getAmount() * self::Fee < self::MAX_AMOUNT) ? $operation->getAmount() * self::Fee : self::MAX_AMOUNT;
+        return ($operation->getAmount() * self::FEE < self::MAX_AMOUNT) ? $operation->getAmount() * self::FEE : self::MAX_AMOUNT;
     }
 }
