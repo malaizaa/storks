@@ -14,4 +14,4 @@ php bin/console storks:calculate-fees tests/input.csv
 ```
 
 ##Testu paleidimas:##
-```phpunit```
+`phpunit`
